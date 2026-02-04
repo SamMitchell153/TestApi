@@ -1,3 +1,4 @@
+using WebAPI.Controllers;
 using WebAPI.Interfaces;
 using WebAPI.WebApi.Test;
 
@@ -19,26 +20,27 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-
+//init with test datastore since not creating functioning datastore
 IExcerciseDatastore excerciseDatastore = new TestExcerciseDatastore();
+ApiController apiController = new ApiController(excerciseDatastore);
 
 app.MapGet("/randomExcercise", () =>
 {
-    return excerciseDatastore.GetRandomExcercise();;
+    return apiController.GetRandomExcercise();;
 })
 .WithName("GetRandomExcercise")
 .WithOpenApi();
 
 app.MapGet("/AllExcercises", () =>
 {
-    return excerciseDatastore.GetAllExcercises();;
+    return apiController.GetAllExcercises();;
 })
 .WithName("GetAllExcercises")
 .WithOpenApi();
 
 app.MapGet("/randomSchedule", () =>
 {
-    return excerciseDatastore.GetRandomSchedule();;
+    return apiController.GetRandomSchedule();;
 })
 .WithName("GetRandomSchedule")
 .WithOpenApi();
